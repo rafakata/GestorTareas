@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var expressLayouts = require('express-ejs-layouts');
+var expressSession = require('express-session');
  
 var indexRouter = require('./routes/index');
  
@@ -13,12 +14,26 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
- 
+
+//Ejemplo chorra de clase
+app.use((req,res,next) => {
+ console.log('Nueva petición en ' + req.hostname + ' a las ' + (new Date()).toISOString())
+  next(); 
+}); 
+
+
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(expressSession({
+  secret: 'mi_clave_secreta',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {secure: false} 
+}));
  
 app.use('/', indexRouter);
  

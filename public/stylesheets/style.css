@@ -11,7 +11,7 @@ body{
 }
 
 header,footer{
-  background-color: red;
+  background-color: lightblue;
   display:flex;
   justify-content: center;
   gap:1rem;
